@@ -5,8 +5,9 @@ import java.io.*;
 
 public class BinaryTreeMaze {
     public static void main(String[] args) {
+        // 主程序：负责读取输入文件并驱动迷宫搜索
 
-        // If bad args, still match the required error format as closely as possible
+        // 参数检查：确保仅传入一个文件路径，保持错误格式一致
         if (args.length != 1) {
             System.out.println("Error: the file " + (args.length > 0 ? new File(args[0]).getAbsolutePath() : "") + " does not exist.");
             return;
@@ -43,11 +44,13 @@ public class BinaryTreeMaze {
             return;
         }
 
+        // 输入为空时给出提示
         if (tree.isEmpty()) {
             System.out.println("Maze does not contain any nodes.");
             return;
         }
 
+        // 寻找最深层可达路径并输出
         tree.findPath();
         for (String ans : tree.getRoute()) {
             System.out.println(ans);
