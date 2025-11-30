@@ -37,7 +37,9 @@ public class Maze extends BST<MazeNode> {
 
         route.clear();
         // life at root: collect root.health upon starting at root
-        findPathHelper("", root, 0, root.data.health);
+        man = new Hero();
+        man.getHP(root.data.health);
+        findPathHelper("", root, 0, man);
     }
 
     /**
@@ -47,9 +49,9 @@ public class Maze extends BST<MazeNode> {
      *  if you die during the move (<0), you cannot "revive" by the child's health
      *  after arriving, you gain child's health
      */
-    private void findPathHelper(String path, Node<MazeNode> curr, int depth, int life) {
+    private void findPathHelper(String path, Node<MazeNode> curr, int depth, Hero hero) {
         if (curr == null) return;
-        if (life < 0) return;
+        if (hero.HP() < 0) return;
 
         String newPath = path.isEmpty() ? curr.data.name : path + " " + curr.data.name;
 
@@ -60,18 +62,16 @@ public class Maze extends BST<MazeNode> {
         }
 
         if (curr.left != null) {
-            int afterMove = life - 1;
-            if (afterMove >= 0) {
-                int nextLife = afterMove + curr.left.data.health;
-                if (nextLife >= 0) findPathHelper(newPath, curr.left, depth + 1, nextLife);
+            Hero leftHero = new Hero(hero); // 克隆当前英雄状态，避免左右子树互相影响
+            if (leftHero.travel(curr.left.data)) {
+                findPathHelper(newPath, curr.left, depth + 1, leftHero);
             }
         }
 
         if (curr.right != null) {
-            int afterMove = life - 1;
-            if (afterMove >= 0) {
-                int nextLife = afterMove + curr.right.data.health;
-                if (nextLife >= 0) findPathHelper(newPath, curr.right, depth + 1, nextLife);
+            Hero rightHero = new Hero(hero);
+            if (rightHero.travel(curr.right.data)) {
+                findPathHelper(newPath, curr.right, depth + 1, rightHero);
             }
         }
     }
