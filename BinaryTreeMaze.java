@@ -3,7 +3,9 @@ package project5;
 import java.util.*;
 import java.io.*;
 
+/** Entry point wrapper to read maze data and print deepest routes. */
 public class BinaryTreeMaze {
+    /** Launch the maze program with a single input file argument. */
     public static void main(String[] args) {
 
         // If bad args, still match the required error format as closely as possible
