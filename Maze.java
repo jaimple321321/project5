@@ -8,6 +8,7 @@ public class Maze extends BST<MazeNode> {
     private int mazeDepth;    // deepest leaf depth in EDGES
     private ArrayList<String> route;
 
+    /** Set up an empty maze with a new hero and empty route list. */
     public Maze() {
         super();
         man = new Hero();
@@ -15,19 +16,23 @@ public class Maze extends BST<MazeNode> {
     }
 
     // Keep original API used by BinaryTreeMaze
+    /** Add a node to the maze using the given name and health. */
     public void add(String name, int health) {
         super.add(new MazeNode(name, health));
     }
 
+    /** Initialize hero health from the root node if it exists. */
     public void setHp() {
         MazeNode r = super.getRoot();
         if (r != null) man.getHP(r.health);
     }
 
+    /** Return all paths that reach the deepest leaves. */
     public ArrayList<String> getRoute() {
         return route;
     }
 
+    /** Find every valid path that reaches the deepest level. */
     public void findPath() {
         if (root == null) return;
 
@@ -63,7 +68,7 @@ public class Maze extends BST<MazeNode> {
 
         if (curr.left != null) {
             //copy a hero reference
-            Hero leftHero = new Hero(hero); 
+            Hero leftHero = new Hero(hero);
             if (leftHero.travel(curr.left.data)) {
                 findPathHelper(newPath, curr.left, depth + 1, leftHero);
             }
