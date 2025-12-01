@@ -1,3 +1,4 @@
+// 作者 ChenyuWang251130
 package project5;
 
 import java.util.*;
@@ -8,7 +9,7 @@ public class Maze extends BST<MazeNode> {
     private int mazeDepth;    // deepest leaf depth in EDGES
     private ArrayList<String> route;
 
-    /** Set up an empty maze with a new hero and empty route list. */
+    // Set up an empty maze with a new hero and empty route list.
     public Maze() {
         super();
         man = new Hero();
@@ -16,23 +17,23 @@ public class Maze extends BST<MazeNode> {
     }
 
     // Keep original API used by BinaryTreeMaze
-    /** Add a node to the maze using the given name and health. */
+    // Add a node to the maze using the given name and health.
     public void add(String name, int health) {
         super.add(new MazeNode(name, health));
     }
 
-    /** Initialize hero health from the root node if it exists. */
+    // Initialize hero health from the root node if it exists.
     public void setHp() {
         MazeNode r = super.getRoot();
         if (r != null) man.getHP(r.health);
     }
 
-    /** Return all paths that reach the deepest leaves. */
+    // Return all paths that reach the deepest leaves.
     public ArrayList<String> getRoute() {
         return route;
     }
 
-    /** Find every valid path that reaches the deepest level. */
+    // Find every valid path that reaches the deepest level.
     public void findPath() {
         if (root == null) return;
 
@@ -47,13 +48,12 @@ public class Maze extends BST<MazeNode> {
         findPathHelper("", root, 0, man);
     }
 
-    /**
-     * life means current life after collecting curr.data.health already.
-     * Travel rule (important for your failing cases):
-     *  moving to a child costs 1 life, this will eariler than gain health from node.
-     *  if you die during the move (life<0), you cannot "revive" by the gero's health
-     *  after arriving, you gain child's health
-     */
+    //
+     // life means current life after collecting curr.data.health already.
+     // Travel rule (important for your failing cases):
+     // moving to a child costs 1 life, this will eariler than gain health from node.
+     // if you die during the move (life<0), you cannot "revive" by the gero's health
+     // after arriving, you gain child's health
     private void findPathHelper(String path, Node<MazeNode> curr, int depth, Hero hero) {
         if (curr == null) return;
         if (hero.HP() < 0) return;

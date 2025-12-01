@@ -1,14 +1,14 @@
+// 作者 ChenyuWang251130
 package project5;
 
 import java.util.*;
 
-/**
- * Maze node payload stored inside BST.
- * Ordered by label/name, compared by alphabet.
- *
- * Note: left/right fields are kept to minimize changes from the original project,
- * but the generic BST maintains its own left/right pointers internally.
- */
+//
+ // Maze node payload stored inside BST.
+ // Ordered by label/name, compared by alphabet.
+ //
+ // Note: left/right fields are kept to minimize changes from the original project,
+ // but the generic BST maintains its own left/right pointers internally.
 public class MazeNode implements Comparable<MazeNode> {
     // -health: The HP hero can gain from this Node.
     // -name: The variable for put this node into sorted location.
@@ -27,7 +27,7 @@ public class MazeNode implements Comparable<MazeNode> {
     //MazeNode, but I want to keep the Constructor of my old version. You can ignore
     //this constructor and that two variable left and right.
     //@Overload
-    /** Build a node with explicit children references. */
+    // Build a node with explicit children references.
     public MazeNode(int health, String name, MazeNode left, MazeNode right) {
         this.health = health;
         this.name = name;
@@ -36,20 +36,20 @@ public class MazeNode implements Comparable<MazeNode> {
     }
     //This is the new constructor for the BST<E> not BST.
     //@Overload
-    /** Build a node with no child links for use in the generic BST. */
+    // Build a node with no child links for use in the generic BST.
     public MazeNode(String name, int health) {
         this(health, name, null, null);
     }
 
     //@Override
-    /** Compare nodes alphabetically by their name. */
+    // Compare nodes alphabetically by their name.
     public int compareTo(MazeNode other) {
         if (other == null) throw new IllegalArgumentException("other is null");
         return this.name.compareTo(other.name);
     }
 
     //@Override
-    /** Represent this node using only its name. */
+    // Represent this node using only its name.
     public String toString() {
         return name;
     }
