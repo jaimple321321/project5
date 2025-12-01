@@ -1,43 +1,34 @@
+// 作者 ChenyuWang251130
 package project5;
 import java.util.*;
 
 public class Hero{
-    /**
-     * Record the current HP
-     * It will decreases before moving.
-     */
+    //
+     // Record the current HP
+     // It will decreases before moving.
     private int hp;
 
     // Default HP is zero, but we never use it.
+    // Create a hero with zero starting health.
     public Hero(){
         hp = 0;
     }
 
-    /**
-     * Update the hp(contains lose hp).
-     */
+    // Increase current health by the given loot value.
     public void getHP(int loot){
         this.hp += loot;
     }
 
-    /**
-     * Return the current HP.
-     */
+    // Read current health value.
     public int HP() { return hp; }
 
 
     // Copy a new hero object.
+    // Create a copy of another hero's health status.
     public Hero(Hero other) { this.hp = other.hp; }
 
 
-    /**
-     * Move in maze. Rule(sequence)
-     * 1. Minus 1 HP first
-     * 2. if HP after minus smllar or equals to 0, return false.
-     * 3. calculate the variation after arrival.
-     * @param det termination.
-     * @return true if arrived and hp > 0, else false.
-     */
+    // Spend one health to travel and gain the child's health if still alive.
     public boolean travel(MazeNode det){
         hp -= 1;           // Pay
         if(hp < 0) return false;

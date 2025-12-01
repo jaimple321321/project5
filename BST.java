@@ -1,90 +1,93 @@
+// 作者 ChenyuWang251130
 package project5;
 import java.util.*;
 
 
-/**
- * Generic Binary Search Tree (BST) storing elements in sorted order.
- *
- *  Those variables and methods are defaults methods of BST<E> class.
- *  - add(E), remove(E)
- *  - contains(Object) 
- *  - iterator() 
- *  - get(int) 
- *  - first(), last(), floor(E), ceiling(E), lower(E), higher(E)
- *  - toStringTreeFormat()
- *
- *  Now is the local variables and methods I customized for this project.
- * 
- *  Height Variables:
- *  - empty tree height = 0
- *  - leaf height = 1
- *  Three different iterator algorithms.
- *  And toString parts.
- *  Many exceptions throwing(I am not really understand whether 
- *  some situation need to return false or throw some exception.)
- *
- * @param <E> element type
- */
+//
+ // Generic Binary Search Tree (BST) storing elements in sorted order.
+ //
+ // Those variables and methods are defaults methods of BST<E> class.
+ // - add(E), remove(E)
+ // - contains(Object)
+ // - iterator()
+ // - get(int)
+ // - first(), last(), floor(E), ceiling(E), lower(E), higher(E)
+ // - toStringTreeFormat()
+ //
+ // Now is the local variables and methods I customized for this project.
+ //
+ // Height Variables:
+ // - empty tree height = 0
+ // - leaf height = 1
+ // Three different iterator algorithms.
+ // And toString parts.
+ // Many exceptions throwing(I am not really understand whether
+ // some situation need to return false or throw some exception.)
+ //
+ // @param <E> element type
 public class BST<E extends Comparable<? super E>> implements Iterable<E> {
 
-    /** Tree node . */
+    // Tree node .
     protected static class Node<E> {
         E data;
         Node<E> left, right;
+        // Store element value in a new node.
         Node(E data) { this.data = data; }
     }
 
     protected Node<E> root;
     protected int size;
 
-    /** Constructs an empty BST. */
+    // Constructs an empty BST.
     public BST() {
         root = null;
         size = 0;
     }
 
-    /** Constructs a BST by inserting all items from a collection (in iteration order). */
+    // Constructs a BST by inserting all items from a collection (in iteration order).
     public BST(Collection<? extends E> data) {
         this();
         if (data == null) throw new IllegalArgumentException("data is null");
         for (E e : data) add(e);
     }
 
-    /** Constructs a BST by inserting all items from an array. */
+    // Constructs a BST by inserting all items from an array.
     public BST(E[] data) {
         this();
         if (data == null) throw new IllegalArgumentException("data is null");
         for (E e : data) add(e);
     }
 
+    // Return number of elements in the tree.
     public int size() { return size; }
+    // Check whether the tree has no elements.
     public boolean isEmpty() { return size == 0; }
 
-    /** Clears the tree. */
+    // Clears the tree.
     public void clear() {
         root = null;
         size = 0;
     }
 
-    /**
-     * Height of the tree.
-     */
+    //
+     // Height of the tree.
     public int height() { return height(root); }
 
-    /** Alias for older code that used "depth" as height. */
+    // Alias for older code that used "depth" as height.
     public int depth() { return height(); }
 
+    // Compute height for the given subtree.
     protected int height(Node<E> n) {
         if (n == null) return 0;
         return 1 + Math.max(height(n.left), height(n.right));
     }
 
-    /** Returns root element data (null if empty). */
+    // Returns root element data (null if empty).
     public E getRoot() {
         return root == null ? null : root.data;
     }
 
-    /** Adds item; returns true if inserted, false if it was already present. */
+    // Adds item; returns true if inserted, false if it was already present.
     public boolean add(E item) {
         if (item == null) throw new IllegalArgumentException("item is null");
 
@@ -116,6 +119,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         }
     }
 
+    // Check whether the tree contains the provided object.
     public boolean contains(Object o) {
         //if (o == null) return false;
         if (o == null) throw new NullPointerException();
@@ -142,7 +146,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return false;
     }
 
-    /** Removes item; returns true if removed. */
+    // Removes item; returns true if removed.
     public boolean remove(E item) {
         if (item == null) throw new IllegalArgumentException("item is null");
         boolean[] removed = new boolean[] { false };
@@ -151,6 +155,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return removed[0];
     }
 
+    // Internal recursive remove helper.
     private Node<E> remove(Node<E> node, E item, boolean[] removed) {
         if (node == null) return null;
 
@@ -184,7 +189,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return node;
     }
 
-    /** Returns the in-order element at 0-based index. */
+    // Returns the in-order element at 0-based index.
     public E get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("index: " + index + ", size: " + size);
@@ -207,7 +212,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         throw new IllegalStateException("Traversal failed");
     }
 
-    /** Smallest element. */
+    // Smallest element.
     public E first() {
         if (root == null) throw new NoSuchElementException();
         Node<E> curr = root;
@@ -215,7 +220,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return curr.data;
     }
 
-    /** Largest element. */
+    // Largest element.
     public E last() {
         if (root == null) throw new NoSuchElementException();
         Node<E> curr = root;
@@ -223,7 +228,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return curr.data;
     }
 
-    /** Greatest element <= key (or null if none). */
+    // Greatest element <= key (or null if none).
     public E floor(E key) {
         if (key == null) throw new IllegalArgumentException("key is null");
         Node<E> curr = root;
@@ -241,7 +246,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return ans;
     }
 
-    /** Smallest element >= key (or null if none). */
+    // Smallest element >= key (or null if none).
     public E ceiling(E key) {
         if (key == null) throw new IllegalArgumentException("key is null");
         Node<E> curr = root;
@@ -259,7 +264,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return ans;
     }
 
-    /** Greatest element strictly < key (or null if none). */
+    // Greatest element strictly < key (or null if none).
     public E lower(E key) {
         if (key == null) throw new IllegalArgumentException("key is null");
         Node<E> curr = root;
@@ -276,7 +281,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return ans;
     }
 
-    /** Smallest element strictly > key (or null if none). */
+    // Smallest element strictly > key (or null if none).
     public E higher(E key) {
         if (key == null) throw new IllegalArgumentException("key is null");
         Node<E> curr = root;
@@ -294,63 +299,73 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
     }
 
     //@Override
+    // Provide an inorder iterator by default.
     public Iterator<E> iterator() {
         return new InOrderIterator<>(root);
     }
 
-    /** Three different iterator orders. Default: inorder. */
+    // Three different iterator orders. Default: inorder.
     public Iterator<E> inorderIterator() {
         return iterator();
     }
 
+    // Build a preorder iterator over the tree.
     public Iterator<E> preorderIterator() {
         return new PreIterator<>(root);
     }
 
+    // Build a postorder iterator over the tree.
     public Iterator<E> postorderIterator() {
         return new PostIterator<>(root);
     }
 
     private static class InOrderIterator<E> implements Iterator<E> {
-    private final Stack<Node<E>> st = new Stack<>();
+        private final Stack<Node<E>> st = new Stack<>();
 
-    public InOrderIterator(Node<E> root) {
-        pushLeft(root);
-    }
+        // Prepare stack with the leftmost path from root.
+        public InOrderIterator(Node<E> root) {
+            pushLeft(root);
+        }
 
-    private void pushLeft(Node<E> n) {
-        while (n != null) {
-            st.push(n);
-            n = n.left;
+        // Push all left children for continued traversal.
+        private void pushLeft(Node<E> n) {
+            while (n != null) {
+                st.push(n);
+                n = n.left;
+            }
+        }
+
+        // Determine if more nodes remain.
+        @Override
+        public boolean hasNext() {
+            return !st.isEmpty();
+        }
+
+        // Visit the next node in inorder sequence.
+        @Override
+        public E next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Node<E> n = st.pop();
+            if (n.right != null) pushLeft(n.right);
+            return n.data;
         }
     }
-
-    @Override
-    public boolean hasNext() {
-        return !st.isEmpty();
-    }
-
-    @Override
-    public E next() {
-        if (!hasNext()) throw new NoSuchElementException();
-        Node<E> n = st.pop();
-        if (n.right != null) pushLeft(n.right);
-        return n.data;
-    }
-}
 
     private static class PreIterator<E> implements Iterator<E> {
         private final Stack<Node<E>> st = new Stack<>();
 
+        // Start preorder traversal from the root if present.
         public PreIterator(Node<E> root) {
             if (root != null) st.push(root);
         }
 
+        // Check if more nodes are queued.
         //@Override
         public boolean hasNext() {
             return !st.isEmpty();
         }
 
+        // Return next node in preorder order.
         //@Override
         public E next() {
             if (!hasNext()) throw new NoSuchElementException();
@@ -364,6 +379,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
     private static class PostIterator<E> implements Iterator<E> {
         private final Stack<Node<E>> out = new Stack<>();
 
+        // Prepare a postorder traversal list using two stacks.
         public PostIterator(Node<E> root) {
             if (root == null) return;
             Stack<Node<E>> st = new Stack<>();
@@ -376,11 +392,13 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
             }
         }
 
+        // Confirm whether traversal output remains.
         //@Override
         public boolean hasNext() {
             return !out.isEmpty();
         }
 
+        // Pop the next node in postorder sequence.
         //@Override
         public E next() {
             if (!hasNext()) throw new NoSuchElementException();
@@ -390,9 +408,8 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
 
 
 
-    /**
-     * Empty tree is printed as "[]" not null.
-     */
+    //
+     // Empty tree is printed as "[]" not null.
     //@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -406,9 +423,8 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return sb.toString();
     }
 
-    /**
-     * Structural equality.
-     */
+    //
+     // Structural equality.
     //@Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -417,6 +433,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return equalsNodes(this.root, other.root);
     }
 
+    // Compare two nodes recursively for structural equality.
     private boolean equalsNodes(Node<E> a, Node<?> b) {
         if (a == null || b == null) return a == b;
         try {
@@ -433,6 +450,7 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return hashNode(root);
     }
 
+    // Compute a combined hash for the subtree.
     private int hashNode(Node<E> n) {
         if (n == null) return 0;
         int h = 1;
@@ -442,17 +460,17 @@ public class BST<E extends Comparable<? super E>> implements Iterable<E> {
         return h;
     }
 
-    /**
-     * Returns a multi-line, human-readable tree representation.
-     * Convention: right subtree printed first (on top), then node, then left.
-     * Each depth level indents by 4 spaces.
-     */
+    //
+     // Returns a multi-line, human-readable tree representation.
+     // Convention: right subtree printed first (on top), then node, then left.
+     // Each depth level indents by 4 spaces.
     public String toStringTreeFormat() {
         StringBuilder sb = new StringBuilder();
         toStringTreeFormat(root, 0, sb);
         return sb.toString();
     }
 
+    // Helper to format a subtree with indentation.
     private void toStringTreeFormat(Node<E> node, int depth, StringBuilder sb) {
         if (node == null) return;
         toStringTreeFormat(node.right, depth + 1, sb);
